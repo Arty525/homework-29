@@ -44,11 +44,15 @@ public:
 
 class Dog {
 	std::string name;
-	std::vector<std::string> talents;
+	std::vector<Talent*> talents;
 public:
+	std::string get_name() {
+		return name;
+	}
+
 	void showTalent() {
 		for (int i = 0; i < talents.size(); ++i) {
-			std::cout << "It can " << talents[i] << std::endl;
+			std::cout << "It can " << talents[i]->get_talent() << std::endl;
 		}
 	}
 
@@ -56,11 +60,11 @@ public:
 	Dog(std::string inName){
 		name = inName;
 
-		Swimming swimming;
-		Dancing dancing;
-		Counting counting;
+		Swimming* swimming = new Swimming();
+		Dancing* dancing = new Dancing();
+		Counting* counting = new Counting();
 
-		talents = { swimming.get_talent(), dancing.get_talent(), counting.get_talent() };
+		talents = { swimming, dancing, counting };
 	}
 };
 
@@ -75,7 +79,9 @@ int main() {
 	std::cout << "Command: ";
 	std::cin >> input;
 
-	if(input == "show_talent") dog.showTalent();
-
+	if (input == "show_talent") {
+		std::cout << "Hi, this is " << dog.get_name() << " and it has some talents:" << std::endl;
+		dog.showTalent();
+	}
 	return 0;
 }
